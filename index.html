@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sai Ram Nellore — Senior Product Designer & Business Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --obsidian:#06080E;
+  --deep:#0A0D16;
+  --surface:#0F1320;
+  --glass:rgba(255,255,255,0.03);
+  --glass-border:rgba(255,255,255,0.07);
+  --gold:#C9A84C;
+  --gold-dim:rgba(201,168,76,0.15);
+  --gold-glow:rgba(201,168,76,0.4);
+  --text:#F0EDE8;
+  --text-muted:rgba(240,237,232,0.45);
+  --text-faint:rgba(240,237,232,0.2);
+  --accent:#4A90D9;
+  --accent-dim:rgba(74,144,217,0.12);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --radius:12px;
+  --radius-lg:20px;
+  --shadow:0 2px 16px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--obsidian);
+  color:var(--text);
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR */
+#cursor{position:fixed;width:12px;height:12px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s;mix-blend-mode:difference;}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,opacity 0.3s;}
+
+/* CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.35}
+body::before{content:'';position:fixed;inset:0;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;opacity:0.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 6%;height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--glass-border);backdrop-filter:blur(20px);background:rgba(6,8,14,0.85);transition:all 0.4s;}
+nav.scrolled{background:rgba(6,8,14,0.97)}
+.nav-logo{font-family:var(--serif);font-size:22px;font-weight:300;letter-spacing:0.08em;color:var(--text);}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;position:relative;padding-bottom:4px;transition:color 0.3s;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width 0.3s;}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{border:1px solid var(--gold);color:var(--gold)!important;padding:10px 24px;border-radius:2px;font-size:12px!important;letter-spacing:0.12em!important;transition:background 0.3s,color 0.3s!important;}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{background:var(--gold)!important;color:var(--obsidian)!important}
+.nav-contact-divider{width:1px;height:18px;background:var(--glass-border);margin:0 4px;align-self:center;}
+.nav-contact-link{display:flex!important;align-items:center;gap:6px;color:var(--text-muted)!important;font-size:12px!important;letter-spacing:0.06em!important;padding:6px 10px!important;border:1px solid transparent;border-radius:4px;transition:all 0.3s!important;}
+.nav-contact-link::after{display:none!important}
+.nav-contact-link:hover{color:var(--gold)!important;border-color:var(--gold-dim)!important;background:var(--gold-dim)!important;}
+.nav-contact-link svg{stroke:currentColor;flex-shrink:0;}
+.nav-contact-link span{text-transform:uppercase;}
+
+/* WRAP */
+.wrap{position:relative;z-index:2}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:100px 6% 60px;
+  position:relative;overflow:visible;
+}
+.hero-glow{position:absolute;top:-10%;right:5%;width:600px;height:600px;background:radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 65%);pointer-events:none;animation:pulseGlow 6s ease-in-out infinite;}
+.hero-glow2{position:absolute;bottom:-10%;left:5%;width:500px;height:500px;background:radial-gradient(ellipse,rgba(74,144,217,0.06) 0%,transparent 65%);pointer-events:none;animation:pulseGlow 8s ease-in-out infinite reverse;}
+@keyframes pulseGlow{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+
+.hero-inner{
+  max-width:1160px;margin:0 auto;width:100%;
+  display:grid;
+  grid-template-columns:1fr 540px;
+  gap:40px;
+  align-items:center;
+}
+.hero-text{}
+.hero-presenter{
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;animation:fadeUp 1s 0.4s forwards;
+  overflow:visible;
+}
+
+/* Hero text */
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:32px;color:var(--gold);font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--gold)}
+.hero-name{font-family:var(--serif);font-size:clamp(52px,7vw,96px);font-weight:300;line-height:0.95;letter-spacing:-0.01em;margin-bottom:8px;opacity:0;animation:fadeUp 0.9s 0.35s forwards;}
+.hero-name em{font-style:italic;color:var(--gold)}
+.hero-title{font-family:var(--serif);font-size:clamp(16px,2vw,24px);font-weight:300;font-style:italic;color:var(--text-muted);letter-spacing:0.04em;margin-bottom:36px;opacity:0;animation:fadeUp 0.9s 0.5s forwards;}
+.hero-desc{max-width:520px;color:var(--text-muted);font-size:15px;line-height:1.85;font-weight:300;margin-bottom:44px;opacity:0;animation:fadeUp 0.9s 0.65s forwards;border-left:1px solid var(--gold-dim);padding-left:20px;}
+.hero-actions{display:flex;gap:20px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s 0.8s forwards;}
+.btn-gold{background:var(--gold);color:var(--obsidian);padding:14px 32px;border-radius:2px;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;position:relative;overflow:hidden;}
+.btn-gold::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(255,255,255,0.2);transition:left 0.4s;}
+.btn-gold:hover::before{left:100%}
+.btn-ghost{border:1px solid var(--glass-border);color:var(--text-muted);padding:14px 32px;border-radius:2px;text-decoration:none;font-weight:500;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.3);color:var(--text)}
+
+/* Stats bar */
+.hero-stats{display:flex;gap:0;margin-top:60px;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);max-width:1160px;margin-left:auto;margin-right:auto;width:100%;opacity:0;animation:fadeUp 0.9s 1s forwards;}
+.stat-strip{flex:1;padding:28px 0;text-align:center;border-right:1px solid var(--glass-border);position:relative;overflow:hidden;transition:background 0.4s;}
+.stat-strip:last-child{border-right:none}
+.stat-strip::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width 0.4s;}
+.stat-strip:hover{background:rgba(232,244,255,0.06)}
+.stat-strip:hover::before{width:60%}
+.s-num{font-family:var(--serif);font-size:44px;font-weight:300;color:var(--text);line-height:1;margin-bottom:6px;}
+.s-num span{color:var(--gold);font-size:30px}
+.s-lbl{font-size:11px;color:var(--text-faint);letter-spacing:0.14em;text-transform:uppercase;font-weight:500}
+
+/* SECTIONS */
+section{padding:90px 6%;position:relative}
+.section-inner{max-width:1160px;margin:0 auto}
+.s-tag{display:inline-flex;align-items:center;gap:10px;color:var(--gold);font-size:11px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:20px;}
+.s-tag::before{content:'';width:28px;height:1px;background:var(--gold)}
+.s-title{font-family:var(--serif);font-size:clamp(34px,4vw,58px);font-weight:300;line-height:1.1;margin-bottom:18px;color:var(--text);}
+.s-title em{font-style:italic;color:var(--gold)}
+.s-sub{color:var(--text-muted);font-size:16px;max-width:520px;line-height:1.8;font-weight:300;margin-bottom:56px;}
+
+/* ACHIEVEMENTS */
+.ach-section{background:var(--deep)}
+.ach-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--glass-border)}
+.ach-card{background:var(--deep);padding:44px 32px;position:relative;overflow:hidden;transition:background 0.4s;cursor:default;}
+.ach-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform 0.5s;}
+.ach-card:hover{background:var(--surface)}
+.ach-card:hover::before{transform:scaleX(1)}
+.ach-num{font-family:var(--serif);font-size:60px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:12px;}
+.ach-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.ach-desc{font-size:13px;color:var(--text-muted);line-height:1.65;}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--glass-border)}
+.proj-card{background:var(--surface);overflow:hidden;position:relative;transition:all 0.4s cubic-bezier(.25,.46,.45,.94);}
+.proj-card:hover{background:var(--deep);transform:translateY(-5px);box-shadow:0 28px 56px rgba(0,0,0,0.5),0 0 0 1px var(--gold-dim);z-index:2;}
+.proj-header{padding:32px 28px 24px;border-bottom:1px solid var(--glass-border);position:relative;}
+.proj-header::after{content:'';position:absolute;bottom:0;left:28px;width:36px;height:2px;background:var(--gold);transition:width 0.4s;}
+.proj-card:hover .proj-header::after{width:72px}
+.proj-domain{font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.proj-domain::before{content:'';width:14px;height:1px;background:var(--gold)}
+.proj-name{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--text);margin-bottom:8px;line-height:1.1;}
+.proj-tagline{font-size:13px;color:var(--text-muted);line-height:1.65;font-weight:300}
+.proj-body{padding:20px 28px}
+.meta-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--glass-border);}
+.meta-item:last-of-type{border:none}
+.meta-key{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);min-width:68px;padding-top:2px;}
+.meta-val{font-size:13px;color:var(--text-muted);line-height:1.6;font-weight:300}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px;padding:16px 28px;border-top:1px solid var(--glass-border)}
+.p-tag{font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:5px 11px;border-radius:1px;border:1px solid var(--glass-border);color:var(--text-muted);transition:all 0.3s;}
+.proj-card:hover .p-tag{border-color:var(--gold-dim);color:var(--text)}
+.proj-footer{padding:14px 28px;background:rgba(0,0,0,0.2);display:flex;justify-content:space-between;align-items:center;}
+.pf-role{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:0.08em}
+.pf-client{font-size:11px;color:var(--text-faint);letter-spacing:0.06em}
+
+/* SKILLS */
+.skills-section{background:var(--deep)}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--glass-border)}
+.sk-card{background:var(--deep);padding:32px 28px;transition:background 0.4s;position:relative;overflow:hidden;}
+.sk-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform 0.4s;}
+.sk-card:hover{background:var(--surface)}
+.sk-card:hover::before{transform:scaleY(1)}
+.sk-icon{width:48px;height:48px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(201,168,76,0.2);border-radius:11px;background:rgba(201,168,76,0.05);transition:all 0.4s;flex-shrink:0;}
+.sk-card:hover .sk-icon{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.45);box-shadow:0 0 16px rgba(201,168,76,0.12);}
+.sk-icon svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.sk-title{font-family:var(--serif);font-size:19px;font-weight:300;color:var(--text);margin-bottom:18px;}
+.sk-pills{display:flex;flex-wrap:wrap;gap:6px}
+.sk-pill{font-size:11px;font-weight:500;padding:5px 12px;border-radius:1px;border:1px solid var(--glass-border);color:var(--text-muted);transition:all 0.3s;letter-spacing:0.03em;}
+.sk-card:hover .sk-pill{border-color:rgba(201,168,76,0.2)}
+.sk-pill:hover{background:var(--gold-dim);border-color:var(--gold)!important;color:var(--gold)!important}
+
+/* EXPERIENCE */
+.exp-section{background:var(--obsidian)}
+.exp-item{border:1px solid var(--glass-border);border-radius:2px;margin-bottom:2px;overflow:hidden;transition:border-color 0.4s;position:relative;}
+.exp-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),rgba(201,168,76,0.1));opacity:0;transition:opacity 0.4s;}
+.exp-item:hover{border-color:rgba(201,168,76,0.3)}
+.exp-item:hover::before{opacity:1}
+.exp-head{padding:32px 36px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:20px;}
+.exp-role{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--text);margin-bottom:5px;}
+.exp-co{font-size:13px;color:var(--text-muted);letter-spacing:0.04em}
+.exp-date{font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--gold);border:1px solid var(--gold-dim);padding:5px 16px;border-radius:1px;white-space:nowrap;flex-shrink:0;}
+.exp-promo{font-size:11px;color:rgba(201,168,76,0.7);letter-spacing:0.06em;font-weight:500;margin-top:7px;}
+.exp-toggle{color:var(--text-faint);font-size:20px;transition:transform 0.4s;flex-shrink:0;margin-top:4px;}
+.exp-item.open .exp-toggle{transform:rotate(45deg);color:var(--gold)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height 0.5s cubic-bezier(.25,.46,.45,.94);}
+.exp-item.open .exp-body{max-height:600px}
+.exp-inner{padding:0 36px 32px}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
+.exp-bullets li{font-size:14px;color:var(--text-muted);line-height:1.75;padding-left:18px;position:relative;font-weight:300;}
+.exp-bullets li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:1px;background:var(--gold);}
+.exp-bullets li strong{color:var(--text);font-weight:500}
+.exp-projtag{margin-top:18px;padding:12px 16px;background:var(--glass);border-left:2px solid var(--gold);font-size:12px;color:var(--text-muted);letter-spacing:0.03em;}
+.exp-projtag strong{color:var(--gold)}
+
+/* EDU */
+.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--glass-border)}
+.edu-card{background:var(--surface);padding:36px 32px;transition:background 0.3s;position:relative;overflow:hidden;}
+.edu-card:hover{background:var(--deep)}
+.edu-icon{font-size:28px;margin-bottom:18px;display:block}
+.edu-name{font-family:var(--serif);font-size:19px;font-weight:300;color:var(--text);margin-bottom:5px;}
+.edu-body{font-size:13px;color:var(--text-muted);line-height:1.6}
+.cert-badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:4px 12px;border-radius:1px;}
+
+/* FOOTER */
+footer{background:var(--deep);padding:90px 6% 56px;border-top:1px solid var(--glass-border);position:relative;overflow:hidden;}
+footer::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 65%);z-index:1;pointer-events:none;}
+.footer-inner{max-width:1160px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.footer-title{font-family:var(--serif);font-size:clamp(38px,5.5vw,72px);font-weight:300;color:var(--text);line-height:1.1;margin-bottom:18px;}
+.footer-title em{font-style:italic;color:var(--gold)}
+.footer-sub{color:var(--text-muted);font-size:16px;font-weight:300;margin-bottom:48px;max-width:620px;margin-left:auto;margin-right:auto;text-align:center;}
+.footer-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+.f-link{display:flex;align-items:center;gap:10px;color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.08em;padding:12px 24px;border:1px solid var(--glass-border);border-radius:1px;transition:all 0.3s;}
+.f-link:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.footer-copy{font-size:11px;color:var(--text-faint);letter-spacing:0.1em;text-transform:uppercase;border-top:1px solid var(--glass-border);padding-top:28px;}
+.footer-line{width:72px;height:1px;background:var(--gold);margin:0 auto 28px;}
+
+/* DIVIDER */
+.gold-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.3;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(.25,.46,.45,.94),transform 0.7s cubic-bezier(.25,.46,.45,.94);}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal.delay-1{transition-delay:0.1s}
+.reveal.delay-2{transition-delay:0.2s}
+.reveal.delay-3{transition-delay:0.3s}
+.reveal.delay-4{transition-delay:0.4s}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tagFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--obsidian)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+@media(max-width:1000px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-presenter{display:none}
+  .ach-grid,.projects-grid,.skills-grid{grid-template-columns:repeat(2,1fr)}
+  .edu-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .ach-grid,.projects-grid,.skills-grid{grid-template-columns:1fr}
+  section{padding:60px 4%}
+}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="wrap">
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">Sai<span>.</span>Ram</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li class="nav-contact-divider"></li>
+    <li>
+      <a href="mailto:sairam.1830181@gmail.com" class="nav-contact-link" title="sairam.1830181@gmail.com">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span>Email</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://linkedin.com/in/sairam-nellore-9628rv" target="_blank" class="nav-contact-link" title="linkedin.com/in/sairam-nellore-9628rv">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        <span>LinkedIn</span>
+      </a>
+    </li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-inner">
+    <!-- LEFT: TEXT -->
+    <div class="hero-text">
+      <div class="hero-eyebrow">Open to Business Analyst, Product Management, Project Management, and Sales Leadership Opportunities</div>
+      <h1 class="hero-name">Sai Ram<br><em>Nellore</em></h1>
+      <p class="hero-title">Senior Product Designer &amp; Business Analyst</p>
+      <p class="hero-desc">4+ years delivering end-to-end digital products across Healthcare, Education, IoT &amp; SaaS for US clients — promoted from QA Engineer through Business Analyst and Team Lead to Product Designer. I bridge business strategy with user-centred design and AI tooling.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-gold">View My Work</a>
+        <a href="mailto:sairam.1830181@gmail.com" class="btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: DIAGRAM -->
+    <div class="hero-presenter">
+      <svg viewBox="0 0 500 460" width="500" height="460" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:block">
+        <defs>
+          <radialGradient id="cBg" cx="38%" cy="32%" r="65%">
+            <stop offset="0%" stop-color="#1C3456"/>
+            <stop offset="55%" stop-color="#0E1D36"/>
+            <stop offset="100%" stop-color="#070E1C"/>
+          </radialGradient>
+          <radialGradient id="cGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(201,168,76,0.2)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <linearGradient id="gBar" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E2C05A"/>
+            <stop offset="100%" stop-color="#A87820"/>
+          </linearGradient>
+          <filter id="fSh">
+            <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#000" flood-opacity="0.55"/>
+          </filter>
+          <filter id="fGlw">
+            <feGaussianBlur stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Centre of diagram: cx=250, cy=232 -->
+
+        <!-- ── AMBIENT ORBIT RINGS ── -->
+        <circle cx="250" cy="232" r="192" fill="none" stroke="rgba(201,168,76,0.07)" stroke-width="1.2"/>
+        <circle cx="250" cy="232" r="152" fill="none" stroke="rgba(201,168,76,0.05)" stroke-width="1"/>
+        <circle cx="250" cy="232" r="222" fill="none" stroke="rgba(74,144,217,0.04)" stroke-width="1"/>
+
+        <!-- Orbiting gold dot -->
+        <circle r="4.5" fill="rgba(201,168,76,0.85)" filter="url(#fGlw)">
+          <animateMotion dur="10s" repeatCount="indefinite">
+            <mpath href="#r1"/>
+          </animateMotion>
+        </circle>
+        <path id="r1" d="M250,40 A192,192 0 1,1 249.9,40" fill="none"/>
+
+        <!-- Orbiting blue dot reverse -->
+        <circle r="3.5" fill="rgba(74,144,217,0.8)">
+          <animateMotion dur="15s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear">
+            <mpath href="#r2"/>
+          </animateMotion>
+        </circle>
+        <path id="r2" d="M250,80 A152,152 0 1,1 249.9,80" fill="none"/>
+
+        <!-- Orbiting green dot -->
+        <circle r="2.5" fill="rgba(74,217,140,0.65)">
+          <animateMotion dur="22s" repeatCount="indefinite" keyPoints="0.35;1;0.35" keyTimes="0;0.5;1" calcMode="linear">
+            <mpath href="#r1"/>
+          </animateMotion>
+        </circle>
+
+        <!-- ── CENTRE CIRCLE ── -->
+        <circle cx="250" cy="232" r="130" fill="url(#cGlow)" opacity="0.7">
+          <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="250" cy="232" r="128" fill="url(#cBg)" stroke="rgba(201,168,76,0.28)" stroke-width="1.5"/>
+        <!-- Inner highlight -->
+        <ellipse cx="210" cy="192" rx="55" ry="44" fill="rgba(255,255,255,0.04)"/>
+
+        <!-- ── COMPASS ICON (cx=250, cy=185) ── -->
+        <g transform="translate(250,182)">
+          <polygon points="0,-40 35,-20 35,20 0,40 -35,20 -35,-20" fill="none" stroke="rgba(201,168,76,0.28)" stroke-width="1.2">
+            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+          </polygon>
+          <polygon points="0,-28 24,-14 24,14 0,28 -24,14 -24,-14" fill="none" stroke="rgba(74,144,217,0.24)" stroke-width="1">
+            <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="13s" repeatCount="indefinite"/>
+          </polygon>
+          <circle cx="0" cy="0" r="19" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.55)" stroke-width="1.5"/>
+          <line x1="0" y1="-12" x2="0" y2="-7" stroke="rgba(201,168,76,0.9)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="0" y1="7" x2="0" y2="12" stroke="rgba(201,168,76,0.9)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="-12" y1="0" x2="-7" y2="0" stroke="rgba(201,168,76,0.9)" stroke-width="2" stroke-linecap="round"/>
+          <line x1="7" y1="0" x2="12" y2="0" stroke="rgba(201,168,76,0.9)" stroke-width="2" stroke-linecap="round"/>
+          <polygon points="0,-13 2,-9 0,-6 -2,-9" fill="rgba(201,168,76,0.95)"/>
+          <polygon points="0,6 2,9 0,13 -2,9" fill="rgba(201,168,76,0.95)"/>
+          <polygon points="-13,0 -9,2 -6,0 -9,-2" fill="rgba(201,168,76,0.95)"/>
+          <polygon points="6,0 9,2 13,0 9,-2" fill="rgba(201,168,76,0.95)"/>
+          <circle cx="0" cy="0" r="5" fill="rgba(201,168,76,0.95)">
+            <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- ── NAME & TITLE (centred at cx=250) ── -->
+        <text x="250" y="240" text-anchor="middle"
+          font-family="Cormorant Garamond,Georgia,serif"
+          font-size="32" font-weight="300"
+          fill="rgba(255,255,255,0.92)" letter-spacing="6">Ram</text>
+        <line x1="210" y1="250" x2="290" y2="250" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+        <text x="250" y="268" text-anchor="middle"
+          font-family="Outfit,sans-serif"
+          font-size="9" font-weight="700"
+          fill="rgba(201,168,76,0.85)" letter-spacing="2.5">PRODUCT &amp; BUSINESS ANALYST</text>
+
+        <!-- ── RIGHT SKILL TAGS ── -->
+        <!-- Circle right edge: 250+128 = 378. Tags start at x=390 -->
+        <!-- Tag 1: Product Strategy — y centred at 140 -->
+        <g style="animation:tagFloat 3.6s 0.2s ease-in-out infinite">
+          <rect x="390" y="124" width="100" height="32" rx="16"
+            fill="rgba(74,144,217,0.1)" stroke="rgba(74,144,217,0.45)" stroke-width="1"/>
+          <circle cx="406" cy="140" r="5" fill="rgba(74,144,217,0.9)"/>
+          <text x="418" y="144" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="rgba(74,144,217,1)">Strategy</text>
+          <!-- connector -->
+          <line x1="378" y1="140" x2="390" y2="140" stroke="rgba(74,144,217,0.2)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Tag 2: UX Design — y=196 -->
+        <g style="animation:tagFloat 4.2s 1s ease-in-out infinite">
+          <rect x="394" y="180" width="96" height="32" rx="16"
+            fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.45)" stroke-width="1"/>
+          <circle cx="410" cy="196" r="5" fill="rgba(201,168,76,0.9)"/>
+          <text x="422" y="200" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="rgba(201,168,76,1)">UX Design</text>
+          <line x1="378" y1="196" x2="394" y2="196" stroke="rgba(201,168,76,0.2)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Tag 3: BA — y=260 -->
+        <g style="animation:tagFloat 3.8s 1.8s ease-in-out infinite">
+          <rect x="390" y="244" width="100" height="32" rx="16"
+            fill="rgba(74,217,140,0.08)" stroke="rgba(74,217,140,0.42)" stroke-width="1"/>
+          <circle cx="406" cy="260" r="5" fill="rgba(74,217,140,0.85)"/>
+          <text x="418" y="264" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="rgba(74,217,140,0.95)">Analysis</text>
+          <line x1="378" y1="260" x2="390" y2="260" stroke="rgba(74,217,140,0.2)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Tag 4: AI — y=320 -->
+        <g style="animation:tagFloat 4.6s 0.7s ease-in-out infinite">
+          <rect x="390" y="304" width="100" height="32" rx="16"
+            fill="rgba(160,100,217,0.09)" stroke="rgba(160,100,217,0.42)" stroke-width="1"/>
+          <circle cx="406" cy="320" r="5" fill="rgba(175,125,230,0.85)"/>
+          <text x="418" y="324" font-family="Outfit,sans-serif" font-size="11" font-weight="600" fill="rgba(185,140,235,0.95)">AI Tools</text>
+          <line x1="378" y1="320" x2="390" y2="320" stroke="rgba(160,100,217,0.2)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- ── LEFT METRIC CARDS ── -->
+        <!-- Circle left edge: 250-128 = 122. Cards end at x=110 -->
+        <!-- Card 1: 4+ Years — centred y=148 -->
+        <g style="animation:tagFloat 4s 0.5s ease-in-out infinite" filter="url(#fSh)">
+          <rect x="6" y="112" width="100" height="72" rx="12"
+            fill="rgba(8,14,24,0.9)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="6" y="112" width="100" height="3" rx="2" fill="rgba(201,168,76,0.6)"/>
+          <text x="56" y="152" text-anchor="middle"
+            font-family="Cormorant Garamond,Georgia,serif"
+            font-size="30" font-weight="300" fill="rgba(201,168,76,0.95)">4+</text>
+          <text x="56" y="172" text-anchor="middle"
+            font-family="Outfit,sans-serif" font-size="8.5" font-weight="600"
+            fill="rgba(255,255,255,0.3)" letter-spacing="2">YEARS</text>
+          <line x1="106" y1="148" x2="122" y2="148" stroke="rgba(201,168,76,0.18)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Card 2: 6 Projects — centred y=232 -->
+        <g style="animation:tagFloat 4.8s 1.4s ease-in-out infinite" filter="url(#fSh)">
+          <rect x="6" y="196" width="100" height="72" rx="12"
+            fill="rgba(8,14,24,0.9)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="6" y="196" width="100" height="3" rx="2" fill="rgba(74,144,217,0.6)"/>
+          <text x="56" y="236" text-anchor="middle"
+            font-family="Cormorant Garamond,Georgia,serif"
+            font-size="30" font-weight="300" fill="rgba(74,144,217,0.95)">12</text>
+          <text x="56" y="256" text-anchor="middle"
+            font-family="Outfit,sans-serif" font-size="8.5" font-weight="600"
+            fill="rgba(255,255,255,0.3)" letter-spacing="2">PROJECTS</text>
+          <line x1="106" y1="232" x2="122" y2="232" stroke="rgba(74,144,217,0.18)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+        <!-- Card 3: 25% Boost — centred y=316 -->
+        <g style="animation:tagFloat 3.8s 2s ease-in-out infinite" filter="url(#fSh)">
+          <rect x="6" y="280" width="100" height="72" rx="12"
+            fill="rgba(8,14,24,0.9)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+          <rect x="6" y="280" width="100" height="3" rx="2" fill="rgba(74,217,140,0.6)"/>
+          <text x="56" y="320" text-anchor="middle"
+            font-family="Cormorant Garamond,Georgia,serif"
+            font-size="26" font-weight="300" fill="rgba(74,217,140,0.95)">25%</text>
+          <text x="56" y="340" text-anchor="middle"
+            font-family="Outfit,sans-serif" font-size="8.5" font-weight="600"
+            fill="rgba(255,255,255,0.3)" letter-spacing="2">BOOST</text>
+          <line x1="106" y1="316" x2="122" y2="316" stroke="rgba(74,217,140,0.18)" stroke-width="1" stroke-dasharray="3 2"/>
+        </g>
+
+      </svg>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="hero-stats">
+    <div class="stat-strip"><div class="s-num">4<span>+</span></div><div class="s-lbl">Years Experience</div></div>
+    <div class="stat-strip"><div class="s-num">12</div><div class="s-lbl">Projects Delivered</div></div>
+    <div class="stat-strip"><div class="s-num">3</div><div class="s-lbl">Industry Domains</div></div>
+    <div class="stat-strip"><div class="s-num">25<span>%</span></div><div class="s-lbl">Productivity Boost</div></div>
+    <div class="stat-strip"><div class="s-num">30<span>%</span></div><div class="s-lbl">QA Cycle Reduction</div></div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ACHIEVEMENTS -->
+<section class="ach-section">
+  <div class="section-inner">
+    <div class="s-tag reveal">Impact &amp; Results</div>
+    <h2 class="s-title reveal delay-1">Measurable <em>Outcomes</em></h2>
+    <p class="s-sub reveal delay-2">Quantified results delivered across 3+ years of product delivery for US-based clients — tracked via Jira sprint velocity, stakeholder sign-off, and release cycles.</p>
+  </div>
+  <div class="ach-grid">
+    <div class="ach-card reveal">
+      <div class="ach-num">25%</div>
+      <div class="ach-label">Team Productivity Boost</div>
+      <div class="ach-desc">Redesigned cross-functional workflows, introduced standardised RACI models and structured sprint planning — measured via Jira sprint velocity.</div>
+    </div>
+    <div class="ach-card reveal delay-1">
+      <div class="ach-num">30%</div>
+      <div class="ach-label">QA Cycle Time Reduction</div>
+      <div class="ach-desc">Test process re-engineering and automation support across 6+ projects — tracked across release cycles from Aug 2021 to Jun 2023.</div>
+    </div>
+    <div class="ach-card reveal delay-2">
+      <div class="ach-num">20%</div>
+      <div class="ach-label">Operational Efficiency Gain</div>
+      <div class="ach-desc">Eliminated workflow bottlenecks in healthcare and education platforms — validated through structured stakeholder reviews.</div>
+    </div>
+    <div class="ach-card reveal delay-3">
+      <div class="ach-num">12</div>
+      <div class="ach-label">Projects Delivered End-to-End</div>
+      <div class="ach-desc">Healthcare, Education, IoT, CRM, E-Commerce, Accounting, Job &amp; Staffing, Shopify — delivered for US-based clients.</div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding-bottom:0">
+  <div class="section-inner">
+    <div class="s-tag reveal">Case Studies</div>
+    <h2 class="s-title reveal delay-1">Projects I've <em>Delivered</em></h2>
+    <p class="s-sub reveal delay-2">12 end-to-end projects across Healthcare, Education, IoT, CRM, E-Commerce, Accounting, Job &amp; Staffing, and Shopify — full product lifecycle ownership from discovery to delivery.</p>
+  </div>
+  <div class="projects-grid">
+
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-domain">Healthcare</div>
+        <div class="proj-name">Signal</div>
+        <div class="proj-tagline">Healthcare &amp; Education platform with real-time data workflows and multi-role dashboards for US healthcare providers.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Challenge</div><div class="meta-val">Complex multi-role workflows with real-time data needs across clinical and administrative users.</div></div>
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">Led BA &amp; Team Lead — authored PRDs, designed user journeys, drove 25% productivity improvement.</div></div>
+        <div class="meta-item"><div class="meta-key">Outcome</div><div class="meta-val">Delivered on schedule; adopted as engineering reference across the entire team.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">PRD Authoring</span><span class="p-tag">User Journey Mapping</span><span class="p-tag">Agile</span><span class="p-tag">Lucidchart</span></div>
+      <div class="proj-footer"><span class="pf-role">BA &amp; Team Lead</span><span class="pf-client">🇺🇸 US Client</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-1">
+      <div class="proj-header">
+        <div class="proj-domain">Healthcare</div>
+        <div class="proj-name">MIYO</div>
+        <div class="proj-tagline">Patient-facing healthcare platform with personalised care workflows and engagement features.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Challenge</div><div class="meta-val">Translating clinical requirements into intuitive patient-facing interfaces under compliance standards.</div></div>
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">Business Analyst — requirements gathering, BRD/FRD authoring, QA support and usability analysis.</div></div>
+        <div class="meta-item"><div class="meta-key">Outcome</div><div class="meta-val">Contributed to 20% operational efficiency improvement across the healthcare platform.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">BRD / FRD</span><span class="p-tag">Usability Testing</span><span class="p-tag">Jira</span><span class="p-tag">QA Strategy</span></div>
+      <div class="proj-footer"><span class="pf-role">Business Analyst</span><span class="pf-client">🇺🇸 US Client</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-2">
+      <div class="proj-header">
+        <div class="proj-domain">Healthcare</div>
+        <div class="proj-name">MIRA &amp; INVO</div>
+        <div class="proj-tagline">Dual healthcare platforms focused on operational workflows, care coordination, and administrative efficiency.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Challenge</div><div class="meta-val">Simultaneous delivery of two platforms with overlapping stakeholders and tight timelines.</div></div>
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">BA &amp; QA — parallel requirements documentation, feature flows, and cross-team delivery coordination.</div></div>
+        <div class="meta-item"><div class="meta-key">Outcome</div><div class="meta-val">Both delivered within scope; defect rate reduced through early QA integration.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Parallel Delivery</span><span class="p-tag">Feature Flows</span><span class="p-tag">User Stories</span><span class="p-tag">UAT</span></div>
+      <div class="proj-footer"><span class="pf-role">BA &amp; QA Engineer</span><span class="pf-client">🇺🇸 US Client</span></div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-domain">IoT</div>
+        <div class="proj-name">Site IQ</div>
+        <div class="proj-tagline">IoT-powered site intelligence platform with real-time monitoring dashboards and automated alert workflows.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Challenge</div><div class="meta-val">High data volume, real-time requirements, and non-technical end users needing clear visual dashboards.</div></div>
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">QA Engineer — IoT data pipeline testing, performance testing, usability review.</div></div>
+        <div class="meta-item"><div class="meta-key">Outcome</div><div class="meta-val">30% reduction in QA cycle time; zero critical defects in production release.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">IoT Testing</span><span class="p-tag">Performance QA</span><span class="p-tag">Dashboard UX</span><span class="p-tag">Defect Lifecycle</span></div>
+      <div class="proj-footer"><span class="pf-role">QA Engineer</span><span class="pf-client">🇺🇸 US Client</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-1">
+      <div class="proj-header">
+        <div class="proj-domain">IoT</div>
+        <div class="proj-name">Zerv</div>
+        <div class="proj-tagline">Smart building and access control IoT platform with workflow automation and real-time status monitoring.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Challenge</div><div class="meta-val">Complex device-state management and edge-case scenarios requiring deep test coverage.</div></div>
+        <div class="meta-item"><div class="meta-key">My Role</div><div class="meta-val">QA Engineer — test case design, regression testing, release sign-off, junior QA mentoring.</div></div>
+        <div class="meta-item"><div class="meta-key">Outcome</div><div class="meta-val">Critical edge-case bugs caught pre-release; stable product launch achieved.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Regression Testing</span><span class="p-tag">Edge Cases</span><span class="p-tag">Release QA</span><span class="p-tag">Mentoring</span></div>
+      <div class="proj-footer"><span class="pf-role">QA Engineer</span><span class="pf-client">🇺🇸 US Client</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-2">
+      <div class="proj-header">
+        <div class="proj-domain">Healthcare — Current</div>
+        <div class="proj-name">Healthcare Platform</div>
+        <div class="proj-tagline">End-to-end design and delivery of a patient management and care coordination platform for US healthcare providers.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">Full product lifecycle — requirements, wireframes, user journeys, sprint planning, and stakeholder sign-off.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">AI-assisted prototyping with Lovable AI &amp; V0 Dev to accelerate ideation-to-wireframe cycles.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — leading from inception to delivery.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">PRD / BRD</span><span class="p-tag">Figma</span><span class="p-tag">AI Prototyping</span><span class="p-tag">V0 Dev</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-domain" style="color:#E07040">CRM — Current</div>
+        <div class="proj-name">CRM Platform</div>
+        <div class="proj-tagline">Custom CRM solution for managing sales pipelines, client relationships, and automated follow-up workflows.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">Designing lead management, contact timelines, and dashboard analytics for sales teams.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">User journey mapping and process flow design translating complex CRM logic into intuitive interfaces.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — Dec 2024 to present.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">User Journey</span><span class="p-tag">Workflow Design</span><span class="p-tag">Dashboard UX</span><span class="p-tag">Figma</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-1">
+      <div class="proj-header">
+        <div class="proj-domain" style="color:#40A870">Accounting — Current</div>
+        <div class="proj-name">Accounting Platform</div>
+        <div class="proj-tagline">Business accounting and financial management platform with invoicing, expense tracking, and reporting modules.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">Designing invoice creation, ledger management, tax reporting, and financial dashboard flows.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">Complex data visualisation simplified through clean UX — enabling non-accountants to manage finances confidently.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — Dec 2024 to present.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Data Visualisation</span><span class="p-tag">FRD</span><span class="p-tag">Interaction Design</span><span class="p-tag">Figma</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-2">
+      <div class="proj-header">
+        <div class="proj-domain" style="color:#4A90D9">E-Commerce — Current</div>
+        <div class="proj-name">E-Commerce Platform</div>
+        <div class="proj-tagline">Full-featured e-commerce platform with product catalogue, cart, checkout, and order management for online retailers.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">End-to-end UX design for storefront, product listing, checkout funnel, and seller admin dashboard.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">Conversion-focused design with streamlined checkout flows, reducing friction and increasing purchase completion.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — Dec 2024 to present.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Checkout UX</span><span class="p-tag">Conversion Design</span><span class="p-tag">PRD</span><span class="p-tag">Figma</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-header">
+        <div class="proj-domain" style="color:#A070D4">Job &amp; Staffing — Current</div>
+        <div class="proj-name">Job &amp; Staffing Platform</div>
+        <div class="proj-tagline">End-to-end recruitment and staffing platform connecting employers, recruiters, and candidates with intelligent matching workflows.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">Designing job posting, applicant tracking, interview scheduling, and recruiter dashboards.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">Multi-role UX design — separate tailored flows for employers, recruiters, and job seekers.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — Dec 2024 to present.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Multi-role UX</span><span class="p-tag">ATS Design</span><span class="p-tag">User Stories</span><span class="p-tag">Figma</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+    <div class="proj-card reveal delay-1">
+      <div class="proj-header">
+        <div class="proj-domain" style="color:#5CB85C">Shopify — Current</div>
+        <div class="proj-name">Shopify Custom Solution</div>
+        <div class="proj-tagline">Custom Shopify storefront and theme design with tailored product pages, collections, and merchant admin enhancements.</div>
+      </div>
+      <div class="proj-body">
+        <div class="meta-item"><div class="meta-key">Scope</div><div class="meta-val">Shopify UX audit, custom theme wireframing, product page optimisation, and merchant workflow improvements.</div></div>
+        <div class="meta-item"><div class="meta-key">Approach</div><div class="meta-val">Brand-aligned design system with reusable components — balancing Shopify constraints with custom UX requirements.</div></div>
+        <div class="meta-item"><div class="meta-key">Status</div><div class="meta-val">In active development — Dec 2024 to present.</div></div>
+      </div>
+      <div class="proj-tags"><span class="p-tag">Shopify UX</span><span class="p-tag">Design System</span><span class="p-tag">Theme Design</span><span class="p-tag">Figma</span></div>
+      <div class="proj-footer"><span class="pf-role">Product Designer &amp; Analyst</span><span class="pf-client" style="color:#4ADE80">● In Progress</span></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-divider" style="margin-top:0"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="section-inner">
+    <div class="s-tag reveal">Competencies</div>
+    <h2 class="s-title reveal delay-1">Core <em>Skills</em></h2>
+    <p class="s-sub reveal delay-2">A comprehensive toolkit spanning product strategy, UX design, business analysis, and cutting-edge AI tooling — built across 4+ years and 6 projects.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="sk-card reveal">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/><path d="m14.83 9.17-5.66 5.66M9.17 9.17l5.66 5.66" stroke-opacity="0.4"/></svg></span>
+      <div class="sk-title">Product Strategy &amp; Delivery</div>
+      <div class="sk-pills"><span class="sk-pill">Product Roadmapping</span><span class="sk-pill">OKRs</span><span class="sk-pill">Agile &amp; Scrum</span><span class="sk-pill">Sprint Planning</span><span class="sk-pill">Feature Prioritisation</span><span class="sk-pill">Stakeholder Management</span><span class="sk-pill">Cross-functional Leadership</span><span class="sk-pill">Product Demos</span></div>
+    </div>
+    <div class="sk-card reveal delay-1">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/><polyline points="9,9 10,9 11,11 13,7 14,9 15,9" stroke-opacity="0.7"/></svg></span>
+      <div class="sk-title">Business &amp; Product Analysis</div>
+      <div class="sk-pills"><span class="sk-pill">PRD Authoring</span><span class="sk-pill">BRD / FRD</span><span class="sk-pill">User Stories</span><span class="sk-pill">Acceptance Criteria</span><span class="sk-pill">Gap Analysis</span><span class="sk-pill">Process Optimisation</span><span class="sk-pill">Data-driven Decisions</span><span class="sk-pill">Go-to-market Support</span></div>
+    </div>
+    <div class="sk-card reveal delay-2">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span>
+      <div class="sk-title">UX &amp; Interaction Design</div>
+      <div class="sk-pills"><span class="sk-pill">UX Design</span><span class="sk-pill">Wireframing</span><span class="sk-pill">Prototyping</span><span class="sk-pill">Design Thinking</span><span class="sk-pill">User Journey Mapping</span><span class="sk-pill">Information Architecture</span><span class="sk-pill">Usability Testing</span><span class="sk-pill">Accessibility</span></div>
+    </div>
+    <div class="sk-card reveal">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7" stroke-opacity="0.9"/></svg></span>
+      <div class="sk-title">Design &amp; Collaboration Tools</div>
+      <div class="sk-pills"><span class="sk-pill">Figma</span><span class="sk-pill">FigJam</span><span class="sk-pill">Lucidchart</span><span class="sk-pill">Whimsical</span><span class="sk-pill">Slack</span><span class="sk-pill">Jira</span><span class="sk-pill">Confluence</span><span class="sk-pill">Notion</span><span class="sk-pill">Canva</span><span class="sk-pill">PowerPoint</span></div>
+    </div>
+    <div class="sk-card reveal delay-1">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 6.5l4.5 4M17.5 6.5 13 10M6 17.5l4.5-4M17.5 17.5 13 14"/><path d="M4 8v8M20 8v8" stroke-opacity="0.35"/></svg></span>
+      <div class="sk-title">AI Tools &amp; Prompt Engineering</div>
+      <div class="sk-pills"><span class="sk-pill">Prompt Engineering</span><span class="sk-pill">ChatGPT</span><span class="sk-pill">Claude AI</span><span class="sk-pill">Copilot</span><span class="sk-pill">Lovable AI</span><span class="sk-pill">V0 Dev</span><span class="sk-pill">Uizard</span><span class="sk-pill">Galileo AI</span><span class="sk-pill">Midjourney</span><span class="sk-pill">Cursor AI</span></div>
+    </div>
+    <div class="sk-card reveal delay-2">
+      <span class="sk-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/><path d="m9 8 2 2 4-4" stroke-opacity="0.9"/></svg></span>
+      <div class="sk-title">Certifications</div>
+      <div class="sk-pills" style="margin-bottom:16px"><span class="sk-pill" style="border-color:rgba(201,168,76,0.3);color:var(--gold)">✓ Scrum &amp; Agile Practitioner</span><span class="sk-pill" style="border-color:rgba(201,168,76,0.3);color:var(--gold)">✓ Six Sigma Green Belt</span></div>
+      <div class="sk-title" style="font-size:16px;margin-bottom:12px">Languages</div>
+      <div class="sk-pills"><span class="sk-pill">English</span><span class="sk-pill">Telugu</span><span class="sk-pill">Hindi</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="exp-section">
+  <div class="section-inner">
+    <div class="s-tag reveal">Work History</div>
+    <h2 class="s-title reveal delay-1">Career <em>Journey</em></h2>
+    <p class="s-sub reveal delay-2">Four progressive roles at Ensar Solutions — a consistent story of growth, expanding ownership, and deepening product expertise.</p>
+
+    <div class="exp-list">
+
+      <div class="exp-item reveal open">
+        <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+          <div class="exp-role-wrap">
+            <div class="exp-role">Product Designer &amp; Analyst</div>
+            <div class="exp-co">Ensar Solutions, Hyderabad</div>
+            <div class="exp-promo">⬆ Promoted: QA Engineer → Business Analyst → Team Lead → Product Designer &amp; Analyst</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+            <div class="exp-date">Dec 2024 — Present</div>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-bullets">
+              <li>Own <strong>end-to-end product design</strong> across multiple domains, aligning user needs with business objectives and technical feasibility.</li>
+              <li>Lead <strong>requirement discovery sessions</strong> translating ambiguous goals into PRDs, BRDs, FRDs, and user story maps.</li>
+              <li>Architect <strong>system workflows, information architecture, and interaction flows</strong> as the single source of truth for engineering teams.</li>
+              <li><strong>Drive product roadmap planning</strong> and sprint ceremonies, facilitating cross-team alignment between leadership, design, and development.</li>
+              <li><strong>Pioneer AI-assisted rapid prototyping</strong> using Lovable AI, V0 Dev, and Uizard — accelerating ideation-to-wireframe cycles significantly.</li>
+              <li>Lead structured <strong>product demos and stakeholder reviews</strong>, iterating quickly based on feedback loops.</li>
+              <li>Currently spearheading the <strong>end-to-end design and delivery</strong> of a healthcare platform — owning requirements, wireframes, and sprint planning from inception to launch.</li>
+              <li>Mentor junior analysts on documentation standards, product thinking, and design best practices.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal delay-1">
+        <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+          <div class="exp-role-wrap">
+            <div class="exp-role">Business Analyst &amp; Team Lead</div>
+            <div class="exp-co">Ensar Solutions, Hyderabad — Product &amp; UX Collaboration</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+            <div class="exp-date">Jan 2024 — Dec 2024</div>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-bullets">
+              <li>Led a <strong>cross-functional team</strong> spanning product, UX, QA, and engineering for simultaneous delivery of multiple digital projects.</li>
+              <li>Improved <strong>team productivity by 25%</strong> through standardised workflow templates, clearer RACI models, and structured sprint planning — measured via Jira sprint velocity.</li>
+              <li>Ran <strong>stakeholder discovery workshops</strong> to surface user pain points, directly influencing the project backlog.</li>
+              <li>Designed <strong>end-to-end user journeys, process maps, and interaction diagrams</strong> in Lucidchart and Whimsical, adopted as engineering reference artifacts.</li>
+              <li>Coached and mentored junior analysts on documentation frameworks and Agile ceremonies.</li>
+            </ul>
+            <div class="exp-projtag"><strong>Key Project:</strong> Signal Platform — Healthcare &amp; Education Domain | Client: United States</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal delay-2">
+        <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+          <div class="exp-role-wrap">
+            <div class="exp-role">Business Analyst</div>
+            <div class="exp-co">Ensar Solutions, Hyderabad — Product Development</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+            <div class="exp-date">Jul 2023 — Dec 2023</div>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-bullets">
+              <li>Gathered, analysed, and documented business and product requirements for complex healthcare and education platforms.</li>
+              <li>Improved <strong>project operational efficiency by 20%</strong> through systematic workflow analysis and redesign of core feature flows.</li>
+              <li>Authored comprehensive <strong>BRDs, FRDs, PRDs, and user story sets</strong> as foundation for sprint planning and UAT sign-off.</li>
+              <li>Designed <strong>feature interaction flows and process diagrams</strong> to reduce engineering ambiguity.</li>
+              <li>Partnered closely with QA and development teams to ensure smooth, on-schedule feature delivery.</li>
+            </ul>
+            <div class="exp-projtag"><strong>Projects:</strong> MIYO, INVO, MIRA, Signal — Healthcare &amp; Education Domain | Client: United States</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal delay-3">
+        <div class="exp-head" onclick="this.parentElement.classList.toggle('open')">
+          <div class="exp-role-wrap">
+            <div class="exp-role">QA Engineer</div>
+            <div class="exp-co">Ensar Solutions, Hyderabad — Product Quality &amp; Usability</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+            <div class="exp-date">Aug 2021 — Jun 2023</div>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-inner">
+            <ul class="exp-bullets">
+              <li>Reduced <strong>QA cycle time by 30%</strong> through process improvement, test case optimisation, and automation support across 6+ projects — tracked across release cycles.</li>
+              <li>Developed and executed comprehensive test strategies covering functionality, performance, and usability.</li>
+              <li>Surfaced recurring <strong>usability issues</strong> by partnering with product teams, contributing insights that shaped UX improvements.</li>
+              <li>Managed full defect lifecycle in <strong>Jira</strong> — triage, root cause analysis, and release sign-off.</li>
+              <li>Delivered <strong>training sessions for junior QA engineers</strong>, accelerating team ramp-up time.</li>
+            </ul>
+            <div class="exp-projtag"><strong>Projects:</strong> Site IQ, Zerv, MIYO, INVO, MIRA, Signal — Healthcare, Education &amp; IoT | Client: United States</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- EDUCATION -->
+<section style="background:var(--deep);padding:80px 6%">
+  <div class="section-inner">
+    <div class="s-tag reveal">Credentials</div>
+    <h2 class="s-title reveal delay-1">Education &amp; <em>Certifications</em></h2>
+    <div class="edu-grid" style="margin-top:52px">
+      <div class="edu-card reveal">
+        <span class="edu-icon">🎓</span>
+        <div class="edu-name">PG Diploma — Operations &amp; Marketing Management</div>
+        <div class="edu-body">Acharya Bangalore Business School, Bangalore</div>
+        <div class="edu-body" style="margin-top:4px">2019</div>
+      </div>
+      <div class="edu-card reveal delay-1">
+        <span class="edu-icon">🎓</span>
+        <div class="edu-name">Bachelor of Business Administration (BBA)</div>
+        <div class="edu-body">Sree Krishna Chaitanya Degree &amp; PG College, Nellore</div>
+        <div class="edu-body" style="margin-top:4px">2016</div>
+      </div>
+      <div class="edu-card reveal delay-2">
+        <span class="edu-icon">⚡</span>
+        <div class="edu-name">Scrum &amp; Agile Practitioner</div>
+        <div class="edu-body">Certified in Scrum methodology and Agile delivery frameworks</div>
+        <div class="cert-badge">Certified</div>
+      </div>
+      <div class="edu-card reveal delay-3">
+        <span class="edu-icon">🏅</span>
+        <div class="edu-name">Six Sigma Green Belt</div>
+        <div class="edu-body">Certified in process improvement and data-driven quality management</div>
+        <div class="cert-badge">Certified</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <!-- Chess canvas background -->
+  <canvas id="chess-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;opacity:1;pointer-events:none"></canvas>
+  <div class="footer-inner">
+    <div class="footer-line"></div>
+    <h2 class="footer-title reveal">Let's Build<br><em>Something Great</em></h2>
+    <p class="footer-sub reveal delay-1">
+      <span style="display:block;font-size:13px;font-weight:600;letter-spacing:0.08em;color:rgba(201,168,76,0.85);margin-bottom:12px">
+        Product Manager &nbsp;|&nbsp; Product Analyst &nbsp;|&nbsp; Business Analyst &nbsp;|&nbsp; Sales Leader
+      </span>
+      <span style="display:block;font-size:15px;color:rgba(240,237,232,0.45);font-weight:300;line-height:1.8;margin-bottom:14px">
+        Transforming ideas into scalable products and business solutions through data-driven decision-making, strategic planning, user-centered design, and cross-functional leadership.
+      </span>
+      <span style="display:block;font-size:13px;color:rgba(240,237,232,0.3);font-weight:400;letter-spacing:0.04em">
+        📍 Hyderabad, India &nbsp;·&nbsp; Open to Remote, Hybrid, and On-site Opportunities
+      </span>
+    </p>
+    <div class="footer-links reveal delay-2">
+      <a href="mailto:sairam.1830181@gmail.com" class="f-link">📧 sairam.1830181@gmail.com</a>
+      <a href="tel:+917013829141" class="f-link">📞 +91 7013829141</a>
+      <a href="https://linkedin.com/in/sairam-nellore-9628rv" target="_blank" class="f-link">🔗 LinkedIn</a>
+    </div>
+    <div class="footer-copy reveal delay-3">© 2025 Sai Ram Nellore &nbsp;·&nbsp; Senior Product Designer &amp; Business Analyst &nbsp;·&nbsp; Hyderabad, India</div>
+  </div>
+</footer>
+
+</div>
+
+</div>
+
+<script>
+// Custom cursor
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+// Particle canvas
+const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class Particle{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=Math.random()*1.2+0.3;this.vx=(Math.random()-0.5)*0.3;this.vy=(Math.random()-0.5)*0.3;this.alpha=Math.random()*0.5+0.1}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.alpha})`;ctx.fill()}}
+for(let i=0;i<120;i++)particles.push(new Particle());
+function drawConn(){for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(201,168,76,${0.08*(1-d/100)})`;ctx.lineWidth=0.5;ctx.stroke()}}}
+function loop(){ctx.clearRect(0,0,W,H);particles.forEach(p=>{p.update();p.draw()});drawConn();requestAnimationFrame(loop)}
+loop();
+
+// Nav scroll
+const nav=document.getElementById('main-nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+// Scroll reveal
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// Counter animation for achievements
+function animCount(el,target,suf){let s=0;const dur=1800,t0=performance.now();const step=now=>{const p=Math.min((now-t0)/dur,1);el.innerHTML=Math.floor(p*target)+(suf||'');if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}
+const co=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.ach-num').forEach(n=>{const txt=n.textContent,num=parseInt(txt),suf=txt.replace(/[0-9]/g,'');if(!isNaN(num))animCount(n,num,suf)});co.unobserve(e.target)}})},{threshold:0.3});
+document.querySelectorAll('.ach-grid').forEach(g=>co.observe(g));
+
+// Stats counter
+const so=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.s-num').forEach(el=>{const sp=el.querySelector('span'),suf=sp?sp.outerHTML:'',num=parseInt(el.textContent);if(!isNaN(num)){let s=0;const dur=1400,t0=performance.now();const step=now=>{const p=Math.min((now-t0)/dur,1);el.innerHTML=Math.floor(p*num)+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}});so.unobserve(e.target)}})},{threshold:0.5});
+document.querySelectorAll('.hero-stats').forEach(s=>so.observe(s));
+
+// 3D tilt on project cards
+document.querySelectorAll('.proj-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-0.5,y=(e.clientY-r.top)/r.height-0.5;card.style.transform=`translateY(-5px) rotateX(${-y*5}deg) rotateY(${x*5}deg)`});
+  card.addEventListener('mouseleave',()=>{card.style.transform=''})
+});
+
+// Exp accordion
+document.querySelectorAll('.exp-head').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+</script>
+<script>
+// ── CHESS BOARD ANIMATION ──
+(function(){
+  const canvas = document.getElementById('chess-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const GOLD   = 'rgba(201,168,76,';
+  const SILVER = 'rgba(180,190,210,';
+  const COLS   = 12, ROWS = 6; // more columns to fill wide footer
+
+  let W, H, TILE, offX, offY;
+
+  function resize(){
+    const footer = canvas.parentElement;
+    W = canvas.width  = footer.offsetWidth;
+    H = canvas.height = footer.offsetHeight;
+    // tile fills full width exactly
+    TILE  = Math.floor(W / COLS);
+    offX  = 0;
+    offY  = (H - ROWS * TILE) / 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── DRAW BOARD GRID ──
+  function drawBoard(){
+    for(let r = 0; r < ROWS; r++){
+      for(let c = 0; c < COLS; c++){
+        const light = (r + c) % 2 === 0;
+        ctx.fillStyle = light
+          ? 'rgba(201,168,76,0.018)'
+          : 'rgba(255,255,255,0.006)';
+        ctx.fillRect(offX + c*TILE, offY + r*TILE, TILE, TILE);
+        // grid lines
+        ctx.strokeStyle = 'rgba(201,168,76,0.04)';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(offX + c*TILE, offY + r*TILE, TILE, TILE);
+      }
+    }
+    // outer border
+    ctx.strokeStyle = 'rgba(201,168,76,0.08)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(offX, offY, COLS*TILE, ROWS*TILE);
+
+    // corner accents
+    const corners = [
+      [offX, offY],
+      [offX + COLS*TILE, offY],
+      [offX, offY + ROWS*TILE],
+      [offX + COLS*TILE, offY + ROWS*TILE]
+    ];
+    corners.forEach(([cx2, cy2]) => {
+      ctx.strokeStyle = 'rgba(201,168,76,0.2)';
+      ctx.lineWidth = 1.5;
+      const d = 14;
+      ctx.beginPath();
+      ctx.moveTo(cx2 - d, cy2); ctx.lineTo(cx2, cy2); ctx.lineTo(cx2, cy2 + d);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx2 + d, cy2); ctx.lineTo(cx2, cy2); ctx.lineTo(cx2, cy2 - d);
+      ctx.stroke();
+    });
+
+    // rank/file labels along edges
+    ctx.font = '10px Outfit,sans-serif';
+    ctx.fillStyle = 'rgba(201,168,76,0.08)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for(let c = 0; c < COLS; c++){
+      ctx.fillText(String.fromCharCode(97 + (c % 8)), offX + c*TILE + TILE/2, offY + ROWS*TILE + 14);
+    }
+    for(let r = 0; r < ROWS; r++){
+      ctx.fillText(ROWS - r, offX - 14, offY + r*TILE + TILE/2);
+    }
+  }
+
+  // ── PIECE SYMBOLS ──
+  const PIECES = {
+    K:{ sym:'♔', color: GOLD   },
+    Q:{ sym:'♕', color: GOLD   },
+    R:{ sym:'♖', color: GOLD   },
+    B:{ sym:'♗', color: GOLD   },
+    N:{ sym:'♘', color: GOLD   },
+    P:{ sym:'♙', color: GOLD   },
+    k:{ sym:'♚', color: SILVER },
+    q:{ sym:'♛', color: SILVER },
+    r:{ sym:'♜', color: SILVER },
+    b:{ sym:'♝', color: SILVER },
+    n:{ sym:'♞', color: SILVER },
+    p:{ sym:'♟', color: SILVER },
+  };
+
+  // ── PIECE CLASS ──
+  class Piece {
+    constructor(type, col, row){
+      this.type  = type;
+      this.col   = col;
+      this.row   = row;
+      this.x     = offX + col*TILE + TILE/2;
+      this.y     = offY + row*TILE + TILE/2;
+      this.tx    = this.x;
+      this.ty    = this.y;
+      this.speed = 1.0 + Math.random()*0.8;
+      this.alpha = 0.08 + Math.random()*0.07; // more transparent
+      this.scale = 0.75 + Math.random()*0.25;
+      this.moveTimer = 100 + Math.floor(Math.random()*140);
+      this.glowPhase = Math.random()*Math.PI*2;
+    }
+
+    retarget(){
+      this.col = Math.floor(Math.random()*COLS);
+      this.row = Math.floor(Math.random()*ROWS);
+      this.tx  = offX + this.col*TILE + TILE/2;
+      this.ty  = offY + this.row*TILE + TILE/2;
+    }
+
+    syncPos(){
+      this.x  = offX + this.col*TILE + TILE/2;
+      this.y  = offY + this.row*TILE + TILE/2;
+      this.tx = this.x; this.ty = this.y;
+    }
+
+    update(){
+      this.x += (this.tx - this.x) * 0.032 * this.speed;
+      this.y += (this.ty - this.y) * 0.032 * this.speed;
+      this.moveTimer--;
+      if(this.moveTimer <= 0){
+        this.retarget();
+        this.moveTimer = 100 + Math.floor(Math.random()*150);
+      }
+      this.glowPhase += 0.018;
+    }
+
+    draw(){
+      const p   = PIECES[this.type];
+      const fs  = Math.round(TILE * 0.52 * this.scale);
+      const glo = 0.25 + 0.15*Math.sin(this.glowPhase);
+
+      // subtle circle beneath piece
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, TILE*0.28, 0, Math.PI*2);
+      ctx.fillStyle = p.color + (glo * 0.03) + ')';
+      ctx.fill();
+
+      // draw trail line while moving
+      const dx = this.tx - this.x, dy = this.ty - this.y;
+      if(Math.abs(dx) > 6 || Math.abs(dy) > 6){
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.tx, this.ty);
+        ctx.strokeStyle = p.color + '0.03)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 7]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      // piece glyph with glow
+      ctx.save();
+      ctx.shadowColor  = p.color + '0.15)';
+      ctx.shadowBlur   = 8 + 5*Math.sin(this.glowPhase);
+      ctx.font         = `${fs}px serif`;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle    = p.color + this.alpha + ')';
+      ctx.fillText(p.sym, this.x, this.y);
+      ctx.restore();
+    }
+  }
+
+  // ── INITIAL LAYOUT — spread across wider 12×6 board ──
+  const startTypes = [
+    'R','N','B','Q','K','B','N','R',
+    'P','P','P','P','P','P','P','P',
+    'p','p','p','p','p','p','p','p',
+    'r','n','b','q','k','b','n','r',
+  ];
+  const pieces = startTypes.map((t, i) => {
+    const col = Math.floor(Math.random() * COLS);
+    const row = Math.floor(Math.random() * ROWS);
+    return new Piece(t, col, row);
+  });
+
+  // ── FLOATING NOTATION LABELS ──
+  class Notation {
+    constructor(delay){ this.delay = delay || 0; this.reset(); this.timer = -delay; }
+    reset(){
+      this.col   = Math.floor(Math.random()*COLS);
+      this.row   = Math.floor(Math.random()*ROWS);
+      this.label = String.fromCharCode(97 + (this.col % 8)) + (ROWS - this.row);
+      this.alpha = 0;
+      this.state = 'in';
+      this.life  = 100 + Math.floor(Math.random()*80);
+      this.timer = 0;
+    }
+    update(){
+      if(this.timer < 0){ this.timer++; return; }
+      this.timer++;
+      if(this.state==='in')  { this.alpha = Math.min(this.alpha+0.015, 0.1);   if(this.alpha>=0.1)  this.state='hold'; }
+      if(this.state==='hold'){ if(this.timer>this.life) this.state='out'; }
+      if(this.state==='out') { this.alpha -= 0.015; if(this.alpha<=0) this.reset(); }
+    }
+    draw(){
+      if(this.alpha <= 0) return;
+      ctx.font         = '9px Outfit,sans-serif';
+      ctx.fillStyle    = `rgba(201,168,76,${this.alpha})`;
+      ctx.textAlign    = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText(this.label, offX + this.col*TILE + 5, offY + this.row*TILE + 5);
+    }
+  }
+  const notations = Array.from({length: 20}, (_, i) => new Notation(i * 6));
+
+  // ── MAIN LOOP ──
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    drawBoard();
+    notations.forEach(n => { n.update(); n.draw(); });
+    pieces.forEach(p   => { p.update(); p.draw(); });
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  window.addEventListener('resize', () => {
+    resize();
+    pieces.forEach(p => p.syncPos());
+  });
+})();
+</script>
+</body>
+</html>
